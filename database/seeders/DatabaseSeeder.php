@@ -62,21 +62,23 @@ class DatabaseSeeder extends Seeder
                 'status' => 'available',
                 'year' => 2020,
                 'color' => 'Silver',
-                'mileage' => 15000, // Menambahkan mileage
+                'mileage' => 15000,
                 'created_at' => now(),
                 'updated_at' => now(),
+                'owner_id' => 1
             ],
             [
                 'plate_number' => 'B5678ABC',
                 'brand' => 'Honda',
                 'model' => 'Civic',
                 'daily_rental_rate' => 750000,
-                'status' => 'available',
+                'status' => 'not_available',
                 'year' => 2021,
                 'color' => 'Black',
-                'mileage' => 12000, // Menambahkan mileage
+                'mileage' => 12000,
                 'created_at' => now(),
                 'updated_at' => now(),
+                'owner_id' => 1
             ],
             [
                 'plate_number' => 'B9101DEF',
@@ -86,33 +88,36 @@ class DatabaseSeeder extends Seeder
                 'status' => 'available',
                 'year' => 2019,
                 'color' => 'White',
-                'mileage' => 20000, // Menambahkan mileage
+                'mileage' => 20000,
                 'created_at' => now(),
                 'updated_at' => now(),
+                'owner_id' => 1
             ],
             [
                 'plate_number' => 'B1121GHI',
                 'brand' => 'Nissan',
                 'model' => 'X-Trail',
                 'daily_rental_rate' => 1000000,
-                'status' => 'available',
+                'status' => 'rented',
                 'year' => 2022,
                 'color' => 'Red',
-                'mileage' => 8000, // Menambahkan mileage
+                'mileage' => 8000,
                 'created_at' => now(),
                 'updated_at' => now(),
+                'owner_id' => 1
             ],
             [
                 'plate_number' => 'B3141JKL',
                 'brand' => 'BMW',
                 'model' => 'Series 3',
                 'daily_rental_rate' => 1500000,
-                'status' => 'available',
+                'status' => 'maintenance',
                 'year' => 2023,
                 'color' => 'Blue',
-                'mileage' => 5000, // Menambahkan mileage
+                'mileage' => 5000,
                 'created_at' => now(),
                 'updated_at' => now(),
+                'owner_id' => 1
             ],
         ]);
 

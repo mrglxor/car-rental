@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CustomerController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome');
@@ -13,12 +15,21 @@ Route::post('/register', [AuthController::class, 'register'])->name('register');
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-Route::view('/dashboard', 'dashboard.main')->name('customer')->middleware('role:customer');
+Route::get('/dashboard', [CustomerController::class, 'index'])->name('customer')->middleware('role:customer');
 
-Route::view('/sewa', 'pages.sewa')->name('sewa');
-Route::view('/rental', 'pages.rental')->name('rental');
-Route::view('/owner-rental', 'pages.owner-rental')->name('owner-rental');
-Route::view('/return', 'pages.return')->name('return');
+Route::post('/is-available', [CustomerController::class, 'isAvailable'])->name('isAvailable')->middleware('role:customer');
+Route::post('/rent', [CustomerController::class, 'rent'])->name('rent')->middleware('role:customer');
+Route::get('/sewa', [CustomerController::class, 'sewa'])->name('sewa')->middleware('role:customer');
+Route::get('/rental', [CustomerController::class, 'rental'])->name('rental')->middleware('role:customer');
+Route::get('/return', [CustomerController::class, 'rturn'])->name('return')->middleware('role:customer');
+Route::post('/rent-return', [CustomerController::class, 'rentPost'])->name('rentPost')->middleware('role:customer');
+Route::get('/owner-rental', [CustomerController::class, 'owner'])->name('owner')->middleware('role:customer');
+Route::post('/ownerRental', [CustomerController::class, 'ownerRental'])->name('ownerRental')->middleware('role:customer');
 
-Route::view('/admin/dashboard', 'admin.dashboard')->name('admin')->middleware('role:admin');
-Route::view('/staff/dashboard', 'admin.dashboard')->name('staff')->middleware('role:staff');
+
+Route::view('/staff', 'admin.dashboard')->name('staff')->middleware('role:staff');
+Route::get('/renting', [AdminController::class, 'renting'])->name('renting')->middleware('role:staff');
+Route::get('/renting-out', [AdminController::class, 'rentingOut'])->name('renting-out')->middleware('role:staff');
+
+
+Route::view('/admin', 'admin.dashboard')->name('admin')->middleware('role:admin');

@@ -11,6 +11,7 @@
         }
         .auth-container {
             margin-top: 50px;
+            margin-bottom: 50px;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
@@ -43,6 +44,17 @@
         #flash-message.fade-out {
             opacity: 0;
         }
+        .alert {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border: 1px solid #dc3545;
+            border-radius: 5px;
+            padding: 15px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
     </style>
 </head>
 <body>
@@ -60,6 +72,7 @@
     @endif
     <div class="row justify-content-center">
         <div class="col-lg-6 auth-container">
+            <a href="/">Kembali</a>
             <h2 class="text-center text-secondary text-uppercase mb-4" id="authModalLabel">Login</h2>
             <div class="divider-custom">
                 <div class="divider-custom-icon"><i class="fas fa-user"></i></div>
@@ -129,6 +142,13 @@
             </div>
         </div>
     </div>
+</div>
+<div class="alert" id="alert">
+    <p class="text-danger">ModeDev#164827 <br>
+    Account: <br>
+    customer@account.dev | staff@account.dev | admin@account.dev<br>
+    @Password1</p>
+    <p class="text-secondary">Lihat lebih detail <a href="https://github.com/mrglxor/car-rental" target="_blank">github</a></p>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -210,6 +230,7 @@
         $('#toggleToRegister').on('click', function (e) {
             e.preventDefault();
             $('#loginForm').hide();
+            $('#alert').hide();
             $('#registerForm').show();
             $('#authModalLabel').text('Register');
         });
@@ -217,6 +238,7 @@
             e.preventDefault();
             $('#registerForm').hide();
             $('#loginForm').show();
+            $('#alert').show();
             $('#authModalLabel').text('Login');
         });
 

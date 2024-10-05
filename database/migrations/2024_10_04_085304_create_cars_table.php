@@ -13,14 +13,15 @@ return new class extends Migration
     {
         Schema::create('cars', function (Blueprint $table) {
             $table->id();
-            $table->string('plate_number',10)->unique();
-            $table->string('brand',50);
-            $table->string('model',50);
+            $table->foreignId('owner_id')->constrained('users')->onDelete('cascade')->after('id');
+            $table->string('plate_number', 10)->unique();
+            $table->string('brand', 50);
+            $table->string('model', 50);
             $table->year('year');
             $table->string('color', 30);
             $table->integer('mileage')->nullable();
-            $table->decimal('daily_rental_rate',10,2);
-            $table->enum('status', ['available', 'rented', 'maintenance', 'not_available'])->default('available');
+            $table->decimal('daily_rental_rate', 10, 2);
+            $table->enum('status', ['available', 'rented', 'maintenance', 'not_available'])->default('not_available');
             $table->timestamps();
         });
     }

@@ -42,7 +42,7 @@
         </nav>
         <header class="masthead bg-primary text-white text-center">
             <div class="container d-flex align-items-center flex-column">
-                <img class="masthead-avatar mb-5" src="assets/img/mobil.png" alt="Photo Mobil" />
+                <img class="masthead-avatar mb-5" src="https://purepng.com/public/uploads/large/purepng.com-white-porsche-911-r-carcarvehicletransportporsche-961524651087bpzow.png" alt="Photo Mobil" />
                 <h1 class="masthead-heading text-uppercase mb-0">Persewaan Mobil</h1>
                 <div class="divider-custom divider-light">
                     <div class="divider-custom-line"></div>

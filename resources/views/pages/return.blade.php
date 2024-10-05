@@ -1,17 +1,33 @@
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
 @extends('layout.app')
 @section('sidebar')
     @include('layout.sidebar.user')
 @endsection
 
 @section('content')
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
     <h1 class="h3 mb-4 text-gray-800">Pengembalian Mobil</h1>
 
-    <form id="returnForm">
+    <form id="returnForm" action="{{ route('rentPost') }}" method="POST">
+        @csrf
         <div class="form-group">
             <label for="plateNumber">Plat Nomor</label>
             <input type="text" class="form-control" id="plateNumber" name="plate_number" required>
         </div>
+
+        <input type="hidden" id="rentalId" name="rental_id">
+        <input type="hidden" id="carId" name="car_id">
+        <input type="hidden" id="totalFee" name="total_fee">
+        <input type="hidden" id="returnedAt" name="returned_at">
 
         <button type="button" id="returnButton" class="btn btn-primary" disabled>Pengembalian</button>
     </form>
@@ -23,7 +39,9 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="returnModalLabel">Konfirmasi Pengembalian Mobil</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="closeModal"></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
                     <p><strong>Jumlah Biaya Sewa:</strong> <span id="rentalCost"></span></p>
@@ -39,74 +57,59 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        const rentals = @json($rentals);
 
-        const registeredPlateNumbers = ['ABC123', 'XYZ456', 'LMN789'];
-        const rentalCostPerDay = 100;
-        const rentalDuration = 3;
-
-        async function checkPlateNumber(plateNumber) {
-            return new Promise((resolve) => {
-                setTimeout(() => {
-                    const isRegistered = registeredPlateNumbers.includes(plateNumber);
-                    resolve(isRegistered);
-                }, 500);
-            });
-        }
-
-        document.getElementById('returnForm').addEventListener('input', async function () {
-            const plateNumber = document.getElementById('plateNumber').value.trim();
+        document.getElementById('plateNumber').addEventListener('input', function () {
+            const plateNumber = this.value.trim();
             const returnButton = document.getElementById('returnButton');
             const statusMessage = document.getElementById('statusMessage');
 
-            // Validasi panjang plat nomor
-            if (plateNumber.length < 6 || plateNumber.length > 8) {
-                returnButton.disabled = true;
-                returnButton.classList.remove('btn-danger');
-                returnButton.innerText = 'Pengembalian';
-                statusMessage.innerText = 'Plat nomor harus terdiri dari 6 hingga 8 karakter.';
-            } else {
-                const isRegistered = await checkPlateNumber(plateNumber);
+            const rental = rentals.find(rental => rental.car.plate_number === plateNumber);
+            if (rental) {
+                const dailyRate = rental.car.daily_rental_rate;
+                const totalCost = dailyRate * rental.duration;
 
-                if (isRegistered) {
-                    returnButton.disabled = false;
-                    returnButton.classList.remove('btn-danger');
-                    returnButton.innerText = 'Pengembalian';
-                    statusMessage.innerText = '';
-                } else {
-                    returnButton.disabled = true;
-                    returnButton.classList.add('btn-danger');
-                    returnButton.innerText = 'Tidak Valid';
-                    statusMessage.innerText = `Anda tidak menyewa mobil dengan plat nomor: ${plateNumber}`;
-                }
+                document.getElementById('rentalId').value = rental.id;
+                document.getElementById('carId').value = rental.car.id;
+
+                document.getElementById('rentalCost').innerText = `Rp ${totalCost.toFixed(2)}`;
+                document.getElementById('rentalDuration').innerText = `${rental.duration} hari`;
+
+                returnButton.disabled = false; 
+                statusMessage.innerText = ''; 
+            } else {
+                returnButton.disabled = true; 
+                document.getElementById('rentalCost').innerText = '';
+                document.getElementById('rentalDuration').innerText = ''; 
+                statusMessage.innerText = `Anda tidak menyewa mobil dengan plat nomor: ${plateNumber}`;
             }
         });
 
         document.getElementById('returnButton').addEventListener('click', function () {
-            const totalCost = rentalCostPerDay * rentalDuration;
-            const durationMessage = `${rentalDuration} hari`;
-
-            document.getElementById('rentalCost').innerText = `Rp ${totalCost}`;
-            document.getElementById('rentalDuration').innerText = durationMessage;
-
             const returnModal = new bootstrap.Modal(document.getElementById('returnModal'));
             returnModal.show();
 
-            document.getElementById('tutupModal').addEventListener('click', function(){
+            document.getElementById('tutupModal').addEventListener('click', function() {
                 returnModal.hide();
             });
 
-            document.getElementById('closeModal').addEventListener('click', function(){
+            document.getElementById('closeModal').addEventListener('click', function() {
                 returnModal.hide();
             });
         });
 
         document.getElementById('confirmReturn').addEventListener('click', function () {
-            alert('Mobil berhasil dikembalikan!');
-            bootstrap.Modal.getInstance(document.getElementById('returnModal')).hide();
-            document.getElementById('returnForm').reset();
-            document.getElementById('returnButton').disabled = true;
-            document.getElementById('statusMessage').innerText = '';
-        });
+            const totalCost = parseFloat(document.getElementById('rentalCost').innerText.replace(/Rp\s/g, '').replace(/,/g, ''));
+            const currentDateTime = new Date().toISOString();
+            
+            document.getElementById('totalFee').value = totalCost.toFixed(2);
+            document.getElementById('returnedAt').value = currentDateTime;
 
+            console.log('Total Fee:', document.getElementById('totalFee').value);
+            console.log('Returned At:', document.getElementById('returnedAt').value);
+
+
+            document.getElementById('returnForm').submit();
+        });
     </script>
 @endsection

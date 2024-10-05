@@ -18,10 +18,27 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
                                 Mobil Yang Tersedia</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">10</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $availableCarsCount }}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-car fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-secondary shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">
+                                Menuggu Persetujuan Sewa</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $pendingApprovalCount }}</div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-clock fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
@@ -35,7 +52,7 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                 Sedang Disewa</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">0</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $rentedCarsCount }}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-road fa-2x text-gray-300"></i>
@@ -52,7 +69,7 @@
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
                                 Mobil yang disewakan</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">1</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{ $listedCarsCount }}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-key fa-2x text-gray-300"></i>
@@ -120,7 +137,7 @@
                         <img class="img-fluid px-3 px-sm-4 mt-3 mb-4" style="width: 25rem;"
                             src="img/undraw_posting_photo.svg" alt="...">
                     </div>
-                    <p>Terdapat 3 Role: <span class="text-warning">Customer</span>, <span class="text-info">Staff</span>, <span class="text-success">Admin</span><br>Current Role: <span class="text-warning">Customer</span><br><br>Untuk Ketentuan lebih lanjut lihat di github</p>
+                    <p>Terdapat 3 Role: <span class="text-warning">Customer</span>, <span class="text-info">Staff</span>, <span class="text-success">Admin</span><br>Current Role: <span class="text-warning">Customer</span><br>Fitur Customer: Menyewa Mobil dan Menyewakan Mobil,Memerlukan Konfirmasi Staff<br>Mode: Development<br><br>Untuk Ketentuan lebih lanjut lihat di github</p>
                     <a target="_blank" rel="nofollow" href="https://github.com/mrglxor/car-rental">See More &rarr;</a>
                 </div>
             </div>

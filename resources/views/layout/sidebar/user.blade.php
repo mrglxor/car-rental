@@ -31,7 +31,7 @@
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#informasi"
        aria-expanded="false" aria-controls="informasi">
         <i class="fas fa-fw fa-cog"></i>
-        <span>Informasi</span>
+        <span>Rental Manajemen</span>
     </a>
     <div id="informasi" class="collapse" aria-labelledby="headingInformasi" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
@@ -45,13 +45,13 @@
 <li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#carOwner"
        aria-expanded="false" aria-controls="carOwner">
-        <i class="fas fa-fw fa-cog"></i>
+        <i class="fas fa-fw fa-user"></i>
         <span>Car Owner</span>
     </a>
     <div id="carOwner" class="collapse" aria-labelledby="headingCarOwner" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
             <h6 class="collapse-header">Halaman</h6>
-            <a class="collapse-item" href="{{ route('owner-rental') }}">Sewakan Mobil</a>
+            <a class="collapse-item" href="{{ route('owner') }}">Sewakan Mobil</a>
         </div>
     </div>
 </li>
