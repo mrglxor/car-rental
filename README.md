@@ -69,7 +69,7 @@ composer i
 php artisan key:generate
 ```
 
-6. Lalu Migrasi dan Seed dengan perintah:
+6. Nyalakan Apache & Mysql nya, lalu Migrasi dan Seed dengan perintah:
 
 ```bash
 php artisan migrate --seed
