@@ -7,17 +7,99 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## Documentation
+
+aplikasi persewaan mobil dengan laravel, fitur-fitur nya sebagai berikut:
+
+Authentication
+
+-   Register
+-   Login
+
+Otorisaisi
+
+-   Customer
+-   Staff
+-   Admin
+
+Fitur-fitur yang dimiliki:
+
+Customer:
+
+-   Menyewa mobil dengan memasukan Tanggal Mulai dan Tanggal Selesai serta keterangan yang memverifikasi ketersediaan mobil
+-   Mencari mobil berdasarkan merek, model dan status untuk ketersediaan
+-   Melihat daftar mobil yang dapat disewa
+-   Melihat daftar mobil yang mereka sewa
+-   Pengembalian dengan memasukan plat nomor mobil dan verifikasi kevalidan mobil yang sedang disewa dan menghitung jumlah hari dan tarif nya
+-   Sewakan mobil dengan memasukan data-data mobil dan harus diverifikasi oleh staff untuk bisa dipakai ketika ada yang ingin menyewa
+
+Staff:
+
+-   membatalkan persewaan bila ada kesalahan
+-   memverifikasi data sewakan mobil untuk bisa digunakan ketika penyewaan
+
+Admin:
+
+-   menghapus data mobil, rental, pengembalian, user jika ada sesuatu kesalahan
+
+## Instalasi
+
+1. Pastikan memiliki php, composer, apache, mysql dll.
+2. Clone repository ini:
+
+```bash
+git clone https://github.com/mrglxor/car-rental.git
+```
+
+3. Pindah ke direktori proyek:
+
+```bash
+cd car-rental
+```
+
+4. Buka dengan IDE, copy file `.env.example` lalu rename menjadi `.env` dan jalankan perintah ini:
+
+```bash
+composer i
+```
+
+5. Lalu buat key dengan perintah ini:
+
+```bash
+php artisan key:generate
+```
+
+6. Lalu Migrasi dan Seed dengan perintah:
+
+```bash
+php artisan migrate --seed
+```
+
+7. Jalankan laravel dengan perintah:
+
+```bash
+php artisan serve
+```
+
+8. Buka di browser:
+
+```bash
+http://127.0.0.1:8000
+```
+
+Untuk account bisa melakukan registrasi terlebih dahulu, atau menggunakan account dev yang tertera di halaman login
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+-   [Simple, fast routing engine](https://laravel.com/docs/routing).
+-   [Powerful dependency injection container](https://laravel.com/docs/container).
+-   Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
+-   Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
+-   Database agnostic [schema migrations](https://laravel.com/docs/migrations).
+-   [Robust background job processing](https://laravel.com/docs/queues).
+-   [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
@@ -35,19 +117,19 @@ We would like to extend our thanks to the following sponsors for funding Laravel
 
 ### Premium Partners
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+-   **[Vehikl](https://vehikl.com/)**
+-   **[Tighten Co.](https://tighten.co)**
+-   **[WebReinvent](https://webreinvent.com/)**
+-   **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
+-   **[64 Robots](https://64robots.com)**
+-   **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
+-   **[Cyber-Duck](https://cyber-duck.co.uk)**
+-   **[DevSquad](https://devsquad.com/hire-laravel-developers)**
+-   **[Jump24](https://jump24.co.uk)**
+-   **[Redberry](https://redberry.international/laravel/)**
+-   **[Active Logic](https://activelogic.com)**
+-   **[byte5](https://byte5.de)**
+-   **[OP.GG](https://op.gg)**
 
 ## Contributing
 
