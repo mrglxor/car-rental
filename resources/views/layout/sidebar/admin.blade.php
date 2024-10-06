@@ -34,3 +34,22 @@
         </div>
     </div>
 </li>
+
+@if (Auth::user()->role == 'admin')
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#control"
+        aria-expanded="false" aria-controls="control">
+            <i class="fas fa-fw fa-user"></i>
+            <span>Kontrol Data</span>
+        </a>
+        <div id="control" class="collapse" aria-labelledby="headingControl" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <h6 class="collapse-header">Halaman</h6>
+                <a class="collapse-item" href="{{ route('data-mobil') }}">Data Mobil</a>
+                <a class="collapse-item" href="{{ route('data-rental') }}">Data Rental</a>
+                <a class="collapse-item" href="{{ route('data-user') }}">Data User</a>
+                <a class="collapse-item" href="{{ route('data-return') }}">Data Pengembalian</a>
+            </div>
+        </div>
+    </li>
+@endif

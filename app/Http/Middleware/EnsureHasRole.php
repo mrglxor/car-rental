@@ -22,7 +22,9 @@ class EnsureHasRole
 
         $user = Auth::user();
 
-        if ($user->role !== $role) {
+        $rolesArray = explode('|', $role);
+
+        if (!in_array($user->role, $rolesArray)) {
             return redirect()->route($user->role);
         }
         return $next($request);

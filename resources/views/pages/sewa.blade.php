@@ -30,30 +30,33 @@
 
         <form id="rentalForm" action="{{ route('rent') }}" method="POST">
             @csrf
-            <div class="form-group">
-                <label for="tanggal_mulai">Tanggal Mulai</label>
-                <input type="date" class="form-control" id="tanggal_mulai" name="tanggal_mulai" required>
+            <div class="form-row mb-3">
+                <div class="form-group mr-3">
+                    <label for="tanggal_mulai">Tanggal Mulai Penyewaan</label>
+                    <input type="date" class="form-control" id="tanggal_mulai" name="tanggal_mulai" required>
+                </div>
+    
+                <div class="form-group">
+                    <label for="tanggal_selesai">Tanggal Selesai Penyewaan</label>
+                    <input type="date" class="form-control" id="tanggal_selesai" name="tanggal_selesai" required>
+                </div>
             </div>
-
-            <div class="form-group">
-                <label for="tanggal_selesai">Tanggal Selesai</label>
-                <input type="date" class="form-control" id="tanggal_selesai" name="tanggal_selesai" required>
-            </div>
-
-            <div class="form-group">
-                <label for="mobil">Pilih Mobil yang Tersedia</label>
-                <select class="form-control" id="mobil" name="mobil" required>
-                    <option value="">-- Pilih Mobil --</option>
-                    @foreach($cars as $car)
-                    <option value="{{ $car->id }}">{{ $car->brand }} {{ $car->model }} - {{ $car->color }} - {{ $car->year }} - {{ $car->plate_number }}</option>
-                    @endforeach
-                </select>
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="mobil">Pilih Mobil yang Tersedia</label>
+                    <select class="form-control" id="mobil" name="mobil" required>
+                        <option value="">-- Pilih Mobil --</option>
+                        @foreach($cars as $car)
+                        <option value="{{ $car->id }}">{{ $car->brand }} {{ $car->model }} - {{ $car->color }} - {{ $car->year }} - {{ $car->plate_number }}</option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
 
             <button type="button" id="sewaButton" class="btn btn-primary" onclick="confirmRental()" disabled>Sewa</button>
         </form>
 
-        <div id="statusMessage" class="mt-3 text-danger"></div>
+        <p>KET: <span id="statusMessage" class="mt-3">-</span></p>
 
     <script>
 
@@ -97,18 +100,18 @@
             }
 
             if (tanggalMulai && tanggalSelesai && mobil) {
-                checkCarAvailability(mobil)
-                    .then(isAvailable => {
-                        if (isAvailable) {
+                checkCarAvailability(mobil, tanggalMulai, tanggalSelesai)
+                    .then(response => {
+                        if (response.is_available) {
                             sewaButton.disabled = false;
                             sewaButton.classList.remove('btn-danger');
                             sewaButton.innerText = 'Sewa';
-                            statusMessage.innerText = '';
+                            statusMessage.innerText = response.message;
                         } else {
                             sewaButton.disabled = true;
                             sewaButton.classList.add('btn-danger');
                             sewaButton.innerText = 'Tidak Tersedia';
-                            statusMessage.innerText = 'Mobil sedang disewa atau dalam masa tinjau ataupun sedang dalam perbaikan.';
+                            statusMessage.innerText = response.message;
                         }
                     });
             } else {
@@ -119,10 +122,8 @@
             }
         });
 
-
-        async function checkCarAvailability( mobil) {
+        async function checkCarAvailability(mobil, tanggalMulai, tanggalSelesai) {
             try {
-
                 const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
                 const response = await fetch(`/is-available`, {
@@ -131,7 +132,7 @@
                         'Content-Type': 'application/json',
                         'X-CSRF-TOKEN': csrfToken,
                     },
-                    body: JSON.stringify({ mobil: mobil }),
+                    body: JSON.stringify({ mobil: mobil, tanggal_mulai: tanggalMulai, tanggal_selesai: tanggalSelesai }),
                 });
 
                 if (!response.ok) {
@@ -139,11 +140,11 @@
                 }
 
                 const data = await response.json();
-                return data.is_available;
+                return data;
 
             } catch (error) {
                 console.error('Error fetching availability:', error);
-                return false;
+                return { is_available: false, message: 'Terjadi kesalahan saat memeriksa ketersediaan mobil.' };
             }
         }
     </script>

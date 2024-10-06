@@ -28,6 +28,13 @@
 </li>
 
 <li class="nav-item">
+    <a class="nav-link collapsed" href="{{ route('daftar-mobil') }}">
+        <i class="fas fa-fw fa-list"></i>
+        <span>Daftar Mobil</span>
+    </a>
+</li>
+
+<li class="nav-item">
     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#informasi"
        aria-expanded="false" aria-controls="informasi">
         <i class="fas fa-fw fa-cog"></i>

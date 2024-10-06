@@ -35,16 +35,82 @@ class CustomerController extends Controller
     {
         $validatedData = $request->validate([
             'mobil' => 'required|exists:cars,id',
+            'tanggal_mulai' => 'required|date',
+            'tanggal_selesai' => 'required|date|after:tanggal_mulai',
         ]);
+
+        if ($validatedData['tanggal_mulai'] === $validatedData['tanggal_selesai']) {
+            return response()->json([
+                'is_available' => false,
+                'message' => 'Minimal 1 hari persewaan diperlukan.'
+            ]);
+        }
 
         $car = Car::find($validatedData['mobil']);
 
-        if ($car && $car->status === 'available') {
-            return response()->json(['is_available' => true]);
+        if ($car->status === 'not_available') {
+            return response()->json([
+                'is_available' => false,
+                'message' => 'Mobil sedang dalam proses persetujuan.'
+            ]);
         }
 
-        return response()->json(['is_available' => false]);
+        if ($car->status === 'maintenance') {
+            return response()->json([
+                'is_available' => false,
+                'message' => 'Mobil sedang dalam perawatan dan tidak tersedia untuk disewa.'
+            ]);
+        }
+
+        $existingRentals = Rental::where('car_id', $validatedData['mobil'])
+            ->where(function ($query) use ($validatedData) {
+                $query->where(function ($query) use ($validatedData) {
+                    $query->where('status', 'active')
+                        ->where(function ($query) use ($validatedData) {
+                            $query->where('start_date', '<', $validatedData['tanggal_selesai'])
+                                ->where('end_date', '>', $validatedData['tanggal_mulai']);
+                        });
+                })->orWhere('status', 'pending');
+            })
+            ->get();
+
+        if ($existingRentals->where('status', 'active')->count() > 0) {
+            $nextAvailableDate = $existingRentals->where('status', 'active')->max('end_date');
+
+            if ($nextAvailableDate) {
+                return response()->json([
+                    'is_available' => false,
+                    'message' => 'Mobil sedang disewa hingga tanggal ' . \Carbon\Carbon::parse($nextAvailableDate)->format('d-m-Y') . '.'
+                ]);
+            }
+        }
+
+        $completedRentals = Rental::where('car_id', $validatedData['mobil'])
+            ->where('status', 'completed')
+            ->where('end_date', '<', now())
+            ->exists();
+
+        if ($completedRentals) {
+            return response()->json([
+                'is_available' => true,
+                'message' => 'Mobil tersedia untuk disewa, telah selesai disewa sebelumnya.'
+            ]);
+        }
+
+        if ($existingRentals->where('status', 'pending')->count() > 0) {
+            return response()->json([
+                'is_available' => false,
+                'message' => 'Mobil sedang dalam proses persetujuan.'
+            ]);
+        }
+
+        return response()->json([
+            'is_available' => true,
+            'message' => 'Mobil tersedia untuk disewa.'
+        ]);
     }
+
+
 
     public function rent(Request $request)
     {
@@ -59,6 +125,7 @@ class CustomerController extends Controller
             'car_id' => $valid['mobil'],
             'start_date' => $valid['tanggal_mulai'],
             'end_date' => $valid['tanggal_selesai'],
+            'status' => 'active',
         ]);
 
         Car::where('id', $valid['mobil'])->update(['status' => 'rented']);
@@ -208,5 +275,11 @@ class CustomerController extends Controller
             'notification' => $notification,
             'notificationCount' => $notificationCount,
         ]);
+    }
+
+    public function daftarMobil()
+    {
+        $cars = Car::all();
+        return view('pages.daftar-mobil', ['cars' => $cars]);
     }
 }

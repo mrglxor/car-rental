@@ -78,30 +78,17 @@ class DatabaseSeeder extends Seeder
                 'mileage' => 12000,
                 'created_at' => now(),
                 'updated_at' => now(),
-                'owner_id' => 1
+                'owner_id' => 3
             ],
             [
                 'plate_number' => 'B9101DEF',
                 'brand' => 'Suzuki',
                 'model' => 'Ertiga',
                 'daily_rental_rate' => 450000,
-                'status' => 'available',
+                'status' => 'rented',
                 'year' => 2019,
                 'color' => 'White',
                 'mileage' => 20000,
-                'created_at' => now(),
-                'updated_at' => now(),
-                'owner_id' => 1
-            ],
-            [
-                'plate_number' => 'B1121GHI',
-                'brand' => 'Nissan',
-                'model' => 'X-Trail',
-                'daily_rental_rate' => 1000000,
-                'status' => 'rented',
-                'year' => 2022,
-                'color' => 'Red',
-                'mileage' => 8000,
                 'created_at' => now(),
                 'updated_at' => now(),
                 'owner_id' => 1
@@ -117,15 +104,14 @@ class DatabaseSeeder extends Seeder
                 'mileage' => 5000,
                 'created_at' => now(),
                 'updated_at' => now(),
-                'owner_id' => 1
+                'owner_id' => 3
             ],
         ]);
 
-        // 3. Seeder untuk rentals
         DB::table('rentals')->insert([
             [
                 'user_id' => 3,
-                'car_id' => 1,
+                'car_id' => 3,
                 'start_date' => Carbon::now(),
                 'end_date' => Carbon::now()->addDays(3),
                 'status' => 'active',
@@ -134,10 +120,10 @@ class DatabaseSeeder extends Seeder
             ],
             [
                 'user_id' => 3,
-                'car_id' => 2,
-                'start_date' => Carbon::now()->addDays(5),
-                'end_date' => Carbon::now()->addDays(7),
-                'status' => 'pending',
+                'car_id' => 1,
+                'start_date' => Carbon::now()->subDays(5),
+                'end_date' => Carbon::now(),
+                'status' => 'completed',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
@@ -145,94 +131,12 @@ class DatabaseSeeder extends Seeder
 
         DB::table('returns')->insert([
             [
-                'rental_id' => 1, // ID rental pertama
-                'car_id' => 1,    // ID untuk Toyota Avanza
-                'condition' => 'good',
-                'returned_at' => now()->addDays(3), // Menggunakan tanggal kembalinya
-                'total_fee' => 1500000.00, // Contoh total fee
-                'comments' => 'Mobil dalam kondisi baik.', // Menambahkan komentar
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'rental_id' => 2, // ID rental kedua
-                'car_id' => 2,    // ID untuk Honda Civic
-                'condition' => 'damaged',
-                'returned_at' => now()->addDays(7), // Menggunakan tanggal kembalinya
-                'total_fee' => 2000000.00, // Contoh total fee
-                'comments' => 'Mobil mengalami kerusakan di bagian bumper.', // Menambahkan komentar
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'rental_id' => 1, // Menggunakan rental_id yang sama dengan yang di atas
-                'car_id' => 1,    // ID untuk Toyota Avanza
-                'condition' => 'needs_maintenance',
-                'returned_at' => now()->addDays(10), // Menggunakan tanggal kembalinya
-                'total_fee' => 3000000.00, // Contoh total fee
-                'comments' => 'Perlu perawatan rutin setelah penyewaan.', // Menambahkan komentar
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
-
-        DB::table('payments')->insert([
-            [
-                'rental_id' => 1,
-                'amount' => 1500000,
-                'payment_method' => 'credit_card', // Menambahkan metode pembayaran
-                'status' => 'paid',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
                 'rental_id' => 2,
-                'amount' => 3000000,
-                'payment_method' => 'bank_transfer', // Menambahkan metode pembayaran
-                'status' => 'unpaid',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-        ]);
-
-        DB::table('reviews')->insert([
-            [
-                'user_id' => 3,
                 'car_id' => 1,
-                'rating' => 4,
-                'comment' => 'Mobilnya bagus dan nyaman.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'user_id' => 3,
-                'car_id' => 2,
-                'rating' => 5,
-                'comment' => 'Pelayanan sangat baik!',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'user_id' => 3,
-                'car_id' => 3,
-                'rating' => 3,
-                'comment' => 'Cukup memuaskan.',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'user_id' => 3,
-                'car_id' => 4,
-                'rating' => 4,
-                'comment' => 'Sangat suka mobilnya!',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'user_id' => 3,
-                'car_id' => 5,
-                'rating' => 5,
-                'comment' => 'Mobil premium dengan performa yang luar biasa!',
+                'condition' => 'good',
+                'returned_at' => now(),
+                'total_fee' => 1500000.00,
+                'comments' => 'Mobil dalam kondisi baik.',
                 'created_at' => now(),
                 'updated_at' => now(),
             ],
